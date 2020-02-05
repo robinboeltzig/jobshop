@@ -43,7 +43,7 @@ print(SourceGraph.m)
 print(SourceGraph.j)
 
 SourceGraph.addNode(0,0,-1,-1,-1)  # Source
-SourceGraph.addNode(1,0,-2,-2,-2)  # Sink
+SourceGraph.addNode(1,0,-3,-3,-3)  # Sink
 
 k = 2
 for i in range(num_jobs):
