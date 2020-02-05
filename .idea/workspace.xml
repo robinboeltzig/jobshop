@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="9f4cd926-708e-46b8-b360-c816011bf87b" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/bidir.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/jobshop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jobshop.iml" afterDir="false" />
@@ -9,6 +10,9 @@
       <change beforePath="$PROJECT_DIR$/input.py" beforeDir="false" afterPath="$PROJECT_DIR$/input.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+=======
+    <list default="true" id="9f4cd926-708e-46b8-b360-c816011bf87b" name="Default Changelist" comment="" />
+>>>>>>> 5d101bf935005843dee0b42a922380cbd7cb5635
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -157,22 +161,22 @@
       <screen x="-2560" y="0" width="2560" height="1400" />
     </state>
     <state x="-869" y="433" key="FileChooserDialogImpl/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580734679091" />
-    <state width="2539" height="401" key="GridCell.Tab.0.bottom" timestamp="1580900797266">
+    <state width="2539" height="401" key="GridCell.Tab.0.bottom" timestamp="1580914528048">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580900797266" />
-    <state width="2539" height="401" key="GridCell.Tab.0.center" timestamp="1580900797266">
+    <state width="2539" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580914528048" />
+    <state width="2539" height="401" key="GridCell.Tab.0.center" timestamp="1580914528048">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580900797266" />
-    <state width="2539" height="401" key="GridCell.Tab.0.left" timestamp="1580900797266">
+    <state width="2539" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580914528048" />
+    <state width="2539" height="401" key="GridCell.Tab.0.left" timestamp="1580914528047">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580900797266" />
-    <state width="2539" height="401" key="GridCell.Tab.0.right" timestamp="1580900797266">
+    <state width="2539" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580914528047" />
+    <state width="2539" height="401" key="GridCell.Tab.0.right" timestamp="1580914528048">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580900797266" />
+    <state width="2539" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580914528048" />
     <state x="-1313" y="250" key="SettingsEditor" timestamp="1580733536785">
       <screen x="-2560" y="0" width="2560" height="1400" />
     </state>
@@ -181,5 +185,9 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="981" y="525" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580901897510" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1580909640930">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1580909640930" />
   </component>
 </project>

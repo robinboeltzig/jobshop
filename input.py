@@ -15,6 +15,10 @@ temp = re.findall(r'\d+', input_table)
 res = list(map(int, temp))
 length = len(res)
 
+best = 0
+
+maxiter = 100 # set max iterations for hill climbing algorithm
+
 num_jobs = res[0]
 num_machines = res[1]
 header = [num_jobs,num_machines]
@@ -39,6 +43,8 @@ SourceGraph = Graph()
 SourceGraph.changeJ(res[0])
 SourceGraph.changeM(res[1])
 
+SourceGraph.calcNeighbor()
+
 print(SourceGraph.m)
 print(SourceGraph.j)
 
@@ -57,15 +63,15 @@ k = 0
 for n in SourceGraph.nodes:
     if SourceGraph.nodes[n][3] < num_machines - 1:
         if SourceGraph.nodes[n][0] > 1:
-            SourceGraph.addEdge(k,n,n+1,0)
+            SourceGraph.addEdge(k,n,n+1,0, False)
             k = k+1
 
 for i in range(num_jobs):
-    SourceGraph.addEdge(k,0,2+i*num_machines,0)
+    SourceGraph.addEdge(k,0,2+i*num_machines,0, False)
     k=k+1
 
 for i in range(num_jobs):
-    SourceGraph.addEdge(k,1+(i+1)*num_machines,1,0)
+    SourceGraph.addEdge(k,1+(i+1)*num_machines,1,0, False)
     k=k+1
 
 print(SourceGraph.edges)
@@ -82,7 +88,7 @@ for m in SourceGraph.nodes:
     for n in SourceGraph.nodes:
         if SourceGraph.nodes[m][1] == SourceGraph.nodes[n][1]:
             if SourceGraph.nodes[m][4] < SourceGraph.nodes[n][4]:
-                SourceGraph.addEdge(k,SourceGraph.nodes[m][4],SourceGraph.nodes[n][4],2)
+                SourceGraph.addEdge(k,SourceGraph.nodes[m][4],SourceGraph.nodes[n][4],2, True)
 
 print(SourceGraph.edges)
 
@@ -90,66 +96,124 @@ TestGraph = copy.deepcopy(SourceGraph)
 TestGraph.generateNextRandom()
 print(TestGraph.edges)
 
-cyclic = True
-j = 0
-remainiter = SourceGraph.j
+t= 0
 
-LastCheck = copy.deepcopy(SourceGraph)
+while t < maxiter:
 
-while remainiter > 0:
-
-    while cyclic == True:
-        RandomGraph = copy.deepcopy(LastCheck)
-        RandomGraph.generateNextRandom()
-        num_nodes = num_machines*num_jobs + 2
-        CycleGraph = DetectCycle(num_nodes)
-
-        i = 0
-        print(RandomGraph.edges)
-
-        for n in RandomGraph.edges:
-            if RandomGraph.edges[i][2] == 0:
-                CycleGraph.addEdge(RandomGraph.edges[i][0], RandomGraph.edges[i][1])
-            elif RandomGraph.edges[i][2] == 1:
-                CycleGraph.addEdge(RandomGraph.edges[i][1], RandomGraph.edges[i][0])
-            i = i+1
-
-        if CycleGraph.isCyclic():
-            cyclic = True
-        else:
-            cyclic = False
-
-        print(cyclic)
-        j = j + 1
-        print(j)
-    remainiter = remainiter-1
-    LastCheck = copy.deepcopy(RandomGraph)
-    print(remainiter)
-    j = 0
     cyclic = True
+    j = 0
+    remainiter = SourceGraph.j
+
+    LastCheck = copy.deepcopy(SourceGraph)
+
+    while remainiter > 0:
+
+        while cyclic == True:
+            RandomGraph = copy.deepcopy(LastCheck)
+            RandomGraph.generateNextRandom()
+            num_nodes = num_machines*num_jobs + 2
+            CycleGraph = DetectCycle(num_nodes)
+
+            RandomGraph.convertCycle(CycleGraph)
+
+            if CycleGraph.isCyclic():
+                cyclic = True
+            else:
+                cyclic = False
+            j = j + 1
+        remainiter = remainiter-1
+        LastCheck = copy.deepcopy(RandomGraph)
+        print(remainiter)
+        j = 0
+        cyclic = True
 
 
-# print("done")
-# print("Graph is acyclic!")
+    # print("done")
+    # print("Graph is acyclic!")
 
 
-NeighborGraph = copy.deepcopy(RandomGraph)
+    NeighborGraph = copy.deepcopy(RandomGraph)
 
-DAG = DAGLongestPath()
+    DAG = DAGLongestPath()
 
-for n in NeighborGraph.nodes:
-    DAG.add_node(n, NeighborGraph.nodes[n][0])
+    NeighborGraph.convertDAG(DAG)
+
+    print(DAG.nodes)
 
 
-print(DAG.nodes)
+    print(len(RandomGraph.edges))
 
-for n in NeighborGraph.edges:
-    if n[2] == 0:
-        DAG.add_edge(n[0], n[1])
+    print(DAG.edges)
 
-    if n[2] == 1:
-        DAG.add_edge(n[1], n[0])
+    print(DAG.longest_path()[1])
 
-print(DAG.edges)
+    currentschedule = DAG.longest_path()[0]
+    currentbest = DAG.longest_path()[1]
+    nextbest = DAG.longest_path()[1]
 
-print(DAG.longest_path())
+    print(currentschedule, currentbest, nextbest)
+
+
+    print(RandomGraph.neighbor)
+    localmin = False
+
+    while localmin == False:
+
+        evallist = []
+        edgeposition = 0
+
+        for n in range(NeighborGraph.neighbor):
+            currentposition = 0
+            NeighborGraph = copy.deepcopy(RandomGraph)
+            for n in range(len(NeighborGraph.edges)):
+                if NeighborGraph.edges[n][3] == True:
+
+                    if edgeposition == currentposition:
+                        if NeighborGraph.edges[n][2] == 0:
+                            NeighborGraph.edges[n][2] = 1
+                        else:
+                            NeighborGraph.edges[n][2] = 0
+
+                    currentposition = currentposition+1
+                    #print(currentposition)
+            DAG = DAGLongestPath()
+            NeighborGraph.convertDAG(DAG)
+            evallist.append(DAG.longest_path()[1])
+            print(NeighborGraph.edges)
+            edgeposition = edgeposition+1
+            #print(edgeposition)
+
+        print(evallist)
+        filtereval = filter(None, evallist)
+
+        nextbest = min(filtereval)
+        minpos = evallist.index(nextbest)
+        print(nextbest)
+        print(minpos)
+
+
+        if nextbest < currentbest:
+            currentbest =nextbest
+            c = 0
+            for n in RandomGraph.edges:
+
+                if n[3] == True:
+                    if c == minpos:
+                        if n[2] == 0:
+                            n[2] = 1
+                        else:
+                            n[2] = 0
+                    c= c+1
+
+        else:
+            localmin=True
+    if best == 0:
+        best = currentbest
+    if currentbest < best:
+        best = currentbest
+
+    t=t+1
+    print()
+    print(t)
+    print()
+print(best)

@@ -12,10 +12,14 @@ class Graph():
         self.next = 0
         self.m = 0
         self.j = 0
+        self.neighbor = 0
     def addNode(self,label,weight,machine,job,position):
         if weight<0: raise ValueError("weight can't be < 0")
         self.nodes[label] = [weight,machine,job,position,label]
         #self.edges[label] = set()
+
+    def calcNeighbor(self):
+        self.neighbor = int(((self.m * (self.m-1))/2) * self.j)
 
     def changeM(self, x):
         self.m = x
@@ -23,13 +27,13 @@ class Graph():
     def changeJ(self, x):
         self.j = x
 
-    def addEdge(self,label,u,v,d):
+    def addEdge(self, label, u, v, d, isbi):
         # d=0... edge from u to v
         # d=1... edge from v to u
         # d=2... bidirectional edge
         if u not in self.nodes: raise ValueError("u {} not a node".format(u))
         if v not in self.nodes: raise ValueError("v {} not a node".format(v))
-        self.edges.append([u,v,d])
+        self.edges.append([u, v, d, isbi])
 
     def generateRandomGraph(self):
         for n in self.edges:
@@ -44,6 +48,29 @@ class Graph():
                 if numedge > 0:
                     n[2] = randint(0, 1)
                     numedge = numedge - 1
+
+    def convertDAG(self, DAG):
+
+        for n in self.nodes:
+            DAG.add_node(n, self.nodes[n][0])
+
+        for n in self.edges:
+            if n[2] == 0:
+                DAG.add_edge(n[0], n[1])
+
+            if n[2] == 1:
+                DAG.add_edge(n[1], n[0])
+
+    def convertCycle(self, Cycle):
+
+        i = 0
+
+        for n in self.edges:
+            if self.edges[i][2] == 0:
+                Cycle.addEdge(self.edges[i][0], self.edges[i][1])
+            elif self.edges[i][2] == 1:
+                Cycle.addEdge(self.edges[i][1], self.edges[i][0])
+            i = i + 1
 
 class DetectCycle():
     def __init__(self, vertices):
