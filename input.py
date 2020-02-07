@@ -11,15 +11,15 @@ from random import seed
 from collections import defaultdict
 
 
-input_table = "10 10 1 21 6 71 9 16 8 52 7 26 2 34 0 53 4 21 3 55 5 95 4 55 2 31 5 98 9 79 0 12 7 66 1 42 8 77 6 77 3 39 3 34 2 64 8 62 1 19 4 92 9 79 7 43 6 54 0 83 5 37 1 87 3 69 2 87 7 38 8 24 9 83 6 41 0 93 5 77 4 60 2 98 0 44 5 25 6 75 7 43 1 49 4 96 9 77 3 17 8 79 2 35 3 76 5 28 9 10 4 61 6  9 0 95 8 35 1  7 7 95 3 16 2 59 0 46 1 91 9 43 8 50 6 52 5 59 4 28 7 27 1 45 0 87 3 41 4 20 6 54 9 43 8 14 5  9 2 39 7 71 4 33 2 37 8 66 5 33 3 26 7  8 1 28 6 89 9 42 0 78 8 69 9 81 2 94 4 96 3 27 0 69 7 45 6 78 1 74 5 84"
-# input_table = "4 4 2 10 3 12 1 19 0 13 3 11 0 5 1 17 2 14 2 13 3 17 0 20 1 19 0 14 3 18 1 8 2 4"
+#input_table = "10 10 1 21 6 71 9 16 8 52 7 26 2 34 0 53 4 21 3 55 5 95 4 55 2 31 5 98 9 79 0 12 7 66 1 42 8 77 6 77 3 39 3 34 2 64 8 62 1 19 4 92 9 79 7 43 6 54 0 83 5 37 1 87 3 69 2 87 7 38 8 24 9 83 6 41 0 93 5 77 4 60 2 98 0 44 5 25 6 75 7 43 1 49 4 96 9 77 3 17 8 79 2 35 3 76 5 28 9 10 4 61 6  9 0 95 8 35 1  7 7 95 3 16 2 59 0 46 1 91 9 43 8 50 6 52 5 59 4 28 7 27 1 45 0 87 3 41 4 20 6 54 9 43 8 14 5  9 2 39 7 71 4 33 2 37 8 66 5 33 3 26 7  8 1 28 6 89 9 42 0 78 8 69 9 81 2 94 4 96 3 27 0 69 7 45 6 78 1 74 5 84"
+input_table = "4 4 2 10 3 12 1 19 0 13 3 11 0 5 1 17 2 14 2 13 3 17 0 20 1 19 0 14 3 18 1 8 2 4"
 temp = re.findall(r'\d+', input_table)
 res = list(map(int, temp))
 length = len(res)
 
 best = 0
 
-maxiter = 10 # set max iterations for hill climbing algorithm
+maxiter = 5 # set max iterations for hill climbing algorithm
 
 num_jobs = res[0]
 num_machines = res[1]
@@ -189,11 +189,22 @@ while t < maxiter:
             localmin=True
     if best == 0:
         best = currentbest
-    if currentbest < best:
-        best = currentbest
 
+        critpath = DAG.longest_path()[0]
+        print(critpath)
+
+    if currentbest < best:
+
+        best = currentbest
+        RandomGraph.convertDAG(DAG)
+        critpath = DAG.longest_path()[0]
+        print(critpath)
     t=t+1
     print()
     print(t)
     print()
+
+
 print(best)
+critpath.insert(0,0)
+print(critpath)
