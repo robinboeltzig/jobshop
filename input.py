@@ -11,15 +11,47 @@ from random import seed
 from collections import defaultdict
 
 
-#input_table = "10 10 1 21 6 71 9 16 8 52 7 26 2 34 0 53 4 21 3 55 5 95 4 55 2 31 5 98 9 79 0 12 7 66 1 42 8 77 6 77 3 39 3 34 2 64 8 62 1 19 4 92 9 79 7 43 6 54 0 83 5 37 1 87 3 69 2 87 7 38 8 24 9 83 6 41 0 93 5 77 4 60 2 98 0 44 5 25 6 75 7 43 1 49 4 96 9 77 3 17 8 79 2 35 3 76 5 28 9 10 4 61 6  9 0 95 8 35 1  7 7 95 3 16 2 59 0 46 1 91 9 43 8 50 6 52 5 59 4 28 7 27 1 45 0 87 3 41 4 20 6 54 9 43 8 14 5  9 2 39 7 71 4 33 2 37 8 66 5 33 3 26 7  8 1 28 6 89 9 42 0 78 8 69 9 81 2 94 4 96 3 27 0 69 7 45 6 78 1 74 5 84"
-input_table = "10 5 1 21 0 53 4 95 3 55 2 34 0 21 3 52 4 16 2 26 1 71 3 39 4 98 1 42 2 31 0 12 1 77 0 55 4 79 2 66 3 77 0 83 3 34 2 64 1 19 4 37 1 54 2 43 4 79 0 92 3 62 3 69 4 77 1 87 2 87 0 93 2 38 0 60 1 41 3 24 4 83 3 17 1 49 4 25 0 44 2 98 4 77 3 79 2 43 1 75 0 96"
+
+
+
+
+
+
+
+
+"""NEXT 2 LINES ARE USER INPUT
+    """
+
+input_table = "20 5 3 60 0 87 1 72 4 95 2 66 1 54 0 48 2 39 3 35 4  5 3 20 1 46 0 97 2 21 4 55 2 37 0 59 3 19 1 34 4 46 2 73 3 25 1 24 0 28 4 23 1 78 3 28 2 83 0 45 4  5 3 71 1 37 2 12 4 29 0 53 4 12 3 33 1 55 2 87 0 38 0 48 1 40 2 49 3 83 4  7 0 90 4 27 2 65 3 17 1 23 0 62 3 85 1 66 2 84 4 19 3 59 2 46 4 13 1 64 0 25 2 53 1 73 3 80 4 88 0 41 2 57 4 47 0 14 1 67 3 74 2 41 4 64 3 84 1 78 0 84 4 52 3 28 2 26 0 63 1 46 1 11 0 64 3 10 4 73 2 17 4 38 3 95 0 85 1 97 2 67 3 93 1 65 2 95 0 59 4 46 0 60 1 85 2 43 4 85 3 32"
+
+maxiter = 20 # set max iterations for hill climbing algorithm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 temp = re.findall(r'\d+', input_table)
 res = list(map(int, temp))
 length = len(res)
 
 best = 0
-
-maxiter = 50 # set max iterations for hill climbing algorithm
 
 num_jobs = res[0]
 num_machines = res[1]
@@ -47,8 +79,8 @@ SourceGraph.changeM(res[1])
 
 SourceGraph.calcNeighbor()
 
-print(SourceGraph.m)
-print(SourceGraph.j)
+# print(SourceGraph.m)
+# print(SourceGraph.j)
 
 SourceGraph.addNode(0,0,-1,-1,-1)  # Source
 SourceGraph.addNode(1,0,-3,-3,-3)  # Sink
@@ -59,7 +91,7 @@ for i in range(num_jobs):
         SourceGraph.addNode(k, operation[i, j][1], operation[i, j][0],i,j)
         k = k+1
 
-print(SourceGraph.nodes)
+# print(SourceGraph.nodes)
 
 k = 0
 for n in SourceGraph.nodes:
@@ -76,7 +108,7 @@ for i in range(num_jobs):
     SourceGraph.addEdge(k,1+(i+1)*num_machines,1,0, False)
     k=k+1
 
-print(SourceGraph.edges)
+# print(SourceGraph.edges)
 
 machines = {}
 for i in range(num_machines):
@@ -92,11 +124,11 @@ for m in SourceGraph.nodes:
             if SourceGraph.nodes[m][4] < SourceGraph.nodes[n][4]:
                 SourceGraph.addEdge(k,SourceGraph.nodes[m][4],SourceGraph.nodes[n][4],2, True)
 
-print(SourceGraph.edges)
+# print(SourceGraph.edges)
 
 TestGraph = copy.deepcopy(SourceGraph)
 TestGraph.generateNextRandom()
-print(TestGraph.edges)
+# print(TestGraph.edges)
 
 t= 0
 
@@ -109,7 +141,7 @@ while t < maxiter:
     RandomGraph = copy.deepcopy(SourceGraph)
     doBidir(RandomGraph)
 
-    print(RandomGraph)
+   # print(RandomGraph)
 
 
     NeighborGraph = copy.deepcopy(RandomGraph)
@@ -118,23 +150,23 @@ while t < maxiter:
 
     NeighborGraph.convertDAG(DAG)
 
-    print(DAG.nodes)
+   # print(DAG.nodes)
 
 
-    print(len(RandomGraph.edges))
+    # print(len(RandomGraph.edges))
 
-    print(DAG.edges)
+    #print(DAG.edges)
 
-    print(DAG.longest_path()[1])
+   # print(DAG.longest_path()[1])
 
     currentschedule = DAG.longest_path()[0]
     currentbest = DAG.longest_path()[1]
     nextbest = DAG.longest_path()[1]
 
-    print(currentschedule, currentbest, nextbest)
+    # print(currentschedule, currentbest, nextbest)
 
 
-    print(RandomGraph.neighbor)
+   # print(RandomGraph.neighbor)
     localmin = False
 
     while localmin == False:
@@ -159,17 +191,16 @@ while t < maxiter:
             DAG = DAGLongestPath()
             NeighborGraph.convertDAG(DAG)
             evallist.append(DAG.longest_path()[1])
-            print(NeighborGraph.edges)
+            #print(NeighborGraph.edges)
             edgeposition = edgeposition+1
             #print(edgeposition)
 
-        print(evallist)
+        print("list of all neighbors:", evallist)
         filtereval = filter(None, evallist)
 
         nextbest = min(filtereval)
         minpos = evallist.index(nextbest)
-        print(nextbest)
-        print(minpos)
+        print("next best:", nextbest)
 
 
         if nextbest < currentbest:
@@ -192,18 +223,18 @@ while t < maxiter:
 
         RandomGraph.convertDAG(DAG)
         critpath = DAG.longest_path()[0]
-        print(critpath)
+        # print(critpath)
 
     if currentbest < best:
 
         best = currentbest
         RandomGraph.convertDAG(DAG)
         critpath = DAG.longest_path()[0]
-        print(critpath)
+        # print(critpath)
 
     t=t+1
     print()
-    print(t)
+    print("current iteration:", t)
     print()
 
 print("shortest calculated makespan:")

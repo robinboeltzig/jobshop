@@ -19,7 +19,7 @@ def doBidir(Graph):
                 s.add(n[0])
             if n[0] == 1:
                 t.add(n[1])
-    print()
+    #print()
     for n in s:
         r[n] = 0
     for n in t:
@@ -27,7 +27,7 @@ def doBidir(Graph):
 
     while len(left.union(right)) != len(Graph.nodes):
         i = random.sample(s,1)[0]
-        print(i)
+        #print(i)
         k = set()
         for n in Graph.nodes:
             #print (Graph.nodes)
