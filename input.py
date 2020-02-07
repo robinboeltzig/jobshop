@@ -1,6 +1,8 @@
 from Graph import Graph
 from Graph import DetectCycle
 from Graph import DAGLongestPath
+from bidir import doBidir
+
 
 import re
 import copy
@@ -9,15 +11,15 @@ from random import seed
 from collections import defaultdict
 
 
-# input_table = "10 10 4 88 8 68 6 94 5 99 1 67 2 89 9 77 7 99 0 86 3 92 5 72 3 50 6 69 4 75 2 94 8 66 0 92 1 82 7 94 9 63 9 83 8 61 0 83 1 65 6 64 5 85 7 78 4 85 2 55 3 77 7 94 2 68 1 61 4 99 3 54 6 75 5 66 0 76 9 63 8 67 3 69 4 88 9 82 8 95 0 99 2 67 6 95 5 68 7 67 1 86 1 99 4 81 5 64 6 66 8 80 2 80 7 69 9 62 3 79 0 88 7 50 1 86 4 97 3 96 0 95 8 97 2 66 5 99 6 52 9 71 4 98 6 73 3 82 2 51 1 71 5 94 7 85 0 62 8 95 9 79 0 94 6 71 3 81 7 85 1 66 2 90 4 76 5 58 8 93 9 97 3 50 0 59 1 82 8 67 7 56 9 96 6 58 4 81 5 59 2 96"
-input_table = "4 4 2 10 3 12 1 19 0 13 3 11 0 5 1 17 2 14 2 13 3 17 0 20 1 19 0 14 3 18 1 8 2 4"
+input_table = "10 10 1 21 6 71 9 16 8 52 7 26 2 34 0 53 4 21 3 55 5 95 4 55 2 31 5 98 9 79 0 12 7 66 1 42 8 77 6 77 3 39 3 34 2 64 8 62 1 19 4 92 9 79 7 43 6 54 0 83 5 37 1 87 3 69 2 87 7 38 8 24 9 83 6 41 0 93 5 77 4 60 2 98 0 44 5 25 6 75 7 43 1 49 4 96 9 77 3 17 8 79 2 35 3 76 5 28 9 10 4 61 6  9 0 95 8 35 1  7 7 95 3 16 2 59 0 46 1 91 9 43 8 50 6 52 5 59 4 28 7 27 1 45 0 87 3 41 4 20 6 54 9 43 8 14 5  9 2 39 7 71 4 33 2 37 8 66 5 33 3 26 7  8 1 28 6 89 9 42 0 78 8 69 9 81 2 94 4 96 3 27 0 69 7 45 6 78 1 74 5 84"
+# input_table = "4 4 2 10 3 12 1 19 0 13 3 11 0 5 1 17 2 14 2 13 3 17 0 20 1 19 0 14 3 18 1 8 2 4"
 temp = re.findall(r'\d+', input_table)
 res = list(map(int, temp))
 length = len(res)
 
 best = 0
 
-maxiter = 100 # set max iterations for hill climbing algorithm
+maxiter = 10 # set max iterations for hill climbing algorithm
 
 num_jobs = res[0]
 num_machines = res[1]
@@ -104,32 +106,10 @@ while t < maxiter:
     j = 0
     remainiter = SourceGraph.j
 
-    LastCheck = copy.deepcopy(SourceGraph)
+    RandomGraph = copy.deepcopy(SourceGraph)
+    doBidir(RandomGraph)
 
-    while remainiter > 0:
-
-        while cyclic == True:
-            RandomGraph = copy.deepcopy(LastCheck)
-            RandomGraph.generateNextRandom()
-            num_nodes = num_machines*num_jobs + 2
-            CycleGraph = DetectCycle(num_nodes)
-
-            RandomGraph.convertCycle(CycleGraph)
-
-            if CycleGraph.isCyclic():
-                cyclic = True
-            else:
-                cyclic = False
-            j = j + 1
-        remainiter = remainiter-1
-        LastCheck = copy.deepcopy(RandomGraph)
-        print(remainiter)
-        j = 0
-        cyclic = True
-
-
-    # print("done")
-    # print("Graph is acyclic!")
+    print(RandomGraph)
 
 
     NeighborGraph = copy.deepcopy(RandomGraph)
